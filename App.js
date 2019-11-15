@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useScreens } from 'react-native-screens';
 //* EXPO IMPORTS
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 //*NAVIGATION
 import MealsNavigator from './navigation/MealsNavigator';
+
+//*OPTIMIZES PERFORMANCE USING UNDER THE HOOT NATIVE IOS AND ANDROID MECANISMS
+useScreens();
 
 //*FUNCTION THAT DO NOT NEED TO BE RENDER WITH THE MAIN COMPONENT
 //Function to load fonts asynchronous
