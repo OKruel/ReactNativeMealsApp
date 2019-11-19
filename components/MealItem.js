@@ -5,6 +5,9 @@ import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity, ImageBackground } from 'react-native';
 //*CREATED CONSTANTS
 import Colors from '../constants/Colors';
+//* COMPONENTS
+import DefaultText from './DefaultText';
+
 
 const MealItem = props => {
     return (
@@ -22,9 +25,9 @@ const MealItem = props => {
                         </ImageBackground>
                     </View>
                     <View style={{ ...styles.mealRow, ...styles.mealDetail }}>
-                        <Text>{props.itemData.item.duration}minutes</Text>
-                        <Text>{props.itemData.item.complexity.toUpperCase()}</Text>
-                        <Text>{props.itemData.item.affordability.toUpperCase()}</Text>
+                        <DefaultText>{props.itemData.item.duration}{' '}minutes</DefaultText>
+                        <DefaultText>{props.itemData.item.complexity.toUpperCase()}</DefaultText>
+                        <DefaultText>{props.itemData.item.affordability.toUpperCase()}</DefaultText>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
     bgImage: {
         width: '100%',
         height: '100%',
-        justifyContent: 'flex-end'        
+        justifyContent: 'flex-end'
     },
     mealDetail: {
         height: '15%',

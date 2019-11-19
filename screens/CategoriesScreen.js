@@ -1,10 +1,13 @@
 import React from 'react';
 //*REACT NATIVE BUILT IN COMPONENTS
-import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
+import { Button, FlatList, StyleSheet } from 'react-native';
 //*NATIVE CREATED DATA
 import { CATEGORIES } from '../data/dummy-data';
 //*CREATED COMPONENTS
 import CategoryGridTile from '../components/CategoryGridTile';
+import HeaderButton from '../components/HeaderButton';
+//* THIRD PARTY STYLING
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 //*MAIN COMPONENT
 const CategoriesScreen = props => {
@@ -63,7 +66,16 @@ const CategoriesScreen = props => {
 //This property will handle the creation of the Header and its style;
 //Can be used as a object or a function;
 //Receives a property called NAVIGATIONDATA which contains all the navigation properties;
-CategoriesScreen.navigationOptions = { headerTitle: 'Meal Categories' };
+CategoriesScreen.navigationOptions = navigationData => {
+    return {
+        headerTitle: 'Meal Categories',
+        headerLeft: <HeaderButtons HeaderButtonComponent={HeaderButton} >
+            <Item title='Menu' iconName='ios-menu' onPress={() => {
+                navigationData.navigation.toggleDrawer()
+             }} />
+        </HeaderButtons>
+    }
+};
 //* STYLES
 const styles = StyleSheet.create({
     screen: {

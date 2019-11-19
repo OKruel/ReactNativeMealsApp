@@ -1,10 +1,13 @@
 import React from 'react';
-//*REACT NATIVE BUILT IN COMPONENTS
-import { View, Text, FlatList, StyleSheet } from 'react-native';
 //*NATIVE CREATED DATA
-import { CATEGORIES, MEALS } from '../data/dummy-data';
+import { CATEGORIES } from '../data/dummy-data';
 //*CREATED COMPONENTS
-import MealItem from '../components/MealItem';
+import MealList from '../components/MealList';
+import DefaultText from '../components/DefaultText';
+//*REDUX
+import { useSelector } from 'react-redux';
+//*React Native Built In Components
+import { View, StyleSheet } from 'react-native';
 
 
 //*MAIN COMPONENT
@@ -15,39 +18,19 @@ const CategoryMealsScreen = props => {
     // console.log('Category Meals Screen Props -> ', props);
     //!---------------------------------------------------------------------------
 
-    const renderMealData = itemData => {
-        return (
-            <MealItem
-                itemData={itemData}
-                onSelectMeal={() => {
-                    props.navigation.navigate({
-                        routeName: 'MealDetail',
-                        params: {
-                            mealId: itemData.item.id
-                        }
-                    })
-                }}
-            />
-        );
-    }
-
     //*GETTING PARAMS PASSED FROM THE PREVIOUS SCREEN IN THE PROPS.NAVIGATION
     const catId = props.navigation.getParam('categoryId');
-    const displayedMeals = MEALS.filter(meal =>
+
+    const availableMeals = useSelector(state => state.meals.filteredMeals);
+
+    const displayedMeals = availableMeals.filter(meal =>
         meal.categoryId.indexOf(catId) >= 0
-    )
-    // console.log(displayedMeals)
-    //* RENDERING UI
-    return (
-        <View style={styles.screen}>
-            <FlatList
-                keyExtractor={item => item.id}
-                data={displayedMeals}
-                renderItem={renderMealData}
-                style={{ width: '100%', padding: 15 }}
-            />
-        </View>
     );
+    //* RENDERING UI
+    if (displayedMeals.length === 0 || !displayedMeals) {
+        return <View style={styles.content}><DefaultText>No meals found! Check your filters!</DefaultText></View>;
+    };
+    return <MealList listData={displayedMeals} navigation={props.navigation} />;
 };
 //*ADDING THE MANDATORY NAVIGATIONOPTIONS PROPERTY TO THE OBJECT WHICH IS A FUNCTION IN JAVASCRIPT
 //This property will handle the creation of the Header and its style;
@@ -61,11 +44,11 @@ CategoryMealsScreen.navigationOptions = navigationData => {
 }
 //*STYLES
 const styles = StyleSheet.create({
-    screen: {
+    content: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     }
-});
+})
 
 export default CategoryMealsScreen;

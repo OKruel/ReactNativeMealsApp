@@ -6,9 +6,19 @@ import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 //*NAVIGATION
 import MealsNavigator from './navigation/MealsNavigator';
+//* REDUX
+import { createStore, combineReducers } from 'redux';
+import mealsReducer from './store/reducers/meals';
+import { Provider } from 'react-redux';
 
 //*OPTIMIZES PERFORMANCE USING UNDER THE HOOT NATIVE IOS AND ANDROID MECANISMS
 useScreens();
+
+//*CREATING STORE TO USE REDUX
+const rootReducer = combineReducers({
+  meals: mealsReducer
+})
+const store = createStore(rootReducer)
 
 //*FUNCTION THAT DO NOT NEED TO BE RENDER WITH THE MAIN COMPONENT
 //Function to load fonts asynchronous
@@ -31,14 +41,10 @@ export default function App() {
       </AppLoading>
     );
   };
-  return <MealsNavigator />
-}
-//*STYLES
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  return (
+    <Provider store={store}>
+      <MealsNavigator />
+    </Provider>
+  );
+};
+
